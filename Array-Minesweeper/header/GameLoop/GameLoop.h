@@ -2,14 +2,13 @@
 #include "../../header/GameWindow/GameWindowManager.h"
 #include "../../header/Event/EventPollingManager.h"
 #include "../../header/UI/SplashScreen/SplashScreenManager.h"
-#include "../../header/GameLoop/Gameplay/GameplayManager.h"
-
+#include "Gameplay/GameplayManager.h"
 
 using namespace GameWindow;
-using namespace Events;
-using namespace UI;
-using namespace sf;
+using namespace Event;
 using namespace Gameplay;
+using namespace UIElements;
+using namespace UI;
 
 enum class GameState
 {
@@ -19,26 +18,25 @@ enum class GameState
     EXIT
 };
 
-class GameLoop 
-{
-    private:
-        GameWindowManager* window_manager;
-        EventPollingManager* event_manager;
+class GameLoop {
+private:
+    GameWindowManager* window_manager;
+    EventPollingManager* event_manager;
 
-        RenderWindow* game_window;
-        SplashScreenManager* splash_screen_manager;
-		GameplayManager* gameplay_manager;
+    sf::RenderWindow* game_window;
+    SplashScreenManager* splash_screen_manager;
+    GameplayManager* gameplay_manager;
 
-        static GameState current_state;
+    static GameState current_state;
 
-        void initialize();
-        void update();
-        void render();
+    void initialize();
+    void update();
+    void render();
 
-    public:
-        GameLoop();
-        ~GameLoop();
+public:
+    GameLoop();
+    ~GameLoop();
 
-        void run();
-        static void setGameState(GameState state_to_set);
+    void run();
+    static void setGameState(GameState state_to_set);
 };

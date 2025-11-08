@@ -2,9 +2,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 
-using namespace sf;
-
-namespace Events
+namespace Event
 {
     enum class MouseButtonState
     {
@@ -15,32 +13,32 @@ namespace Events
 
     class EventPollingManager
     {
-        private:
-            Event game_event;
-            RenderWindow* game_window;
+    private:
+        sf::Event game_event;
+        sf::RenderWindow* game_window;
 
-            MouseButtonState left_mouse_button_state;
-            MouseButtonState right_mouse_button_state;
+        MouseButtonState left_mouse_button_state;
+        MouseButtonState right_mouse_button_state;
 
-            void initializeVariables(RenderWindow* window);
-            void updateMouseButtonState(MouseButtonState& button_state, Mouse::Button button_type);
+        void initializeVariables(sf::RenderWindow* window);
+        void updateMouseButtonState(MouseButtonState& button_state, sf::Mouse::Button button_type);
 
-            bool hasQuitGame();
-            bool isKeyboardEvent();
-            bool isGameWindowOpen();
-            bool gameWindowWasClosed();
+        bool hasQuitGame();
+        bool isKeyboardEvent();
+        bool isGameWindowOpen();
+        bool gameWindowWasClosed();
 
-        public:
-            EventPollingManager(RenderWindow* window);
-            ~EventPollingManager();
+    public:
+        EventPollingManager(sf::RenderWindow* window);
+        ~EventPollingManager();
 
-            void processEvents();
-            void update();
+        void processEvents();
+        void update();
 
-            bool pressedEscapeKey();
-            bool pressedLeftMouseButton();
-            bool pressedRightMouseButton();
+        bool pressedEscapeKey();
+        bool pressedLeftMouseButton();
+        bool pressedRightMouseButton();
 
-            Vector2i getMousePosition();
+        sf::Vector2i getMousePosition();
     };
 }
