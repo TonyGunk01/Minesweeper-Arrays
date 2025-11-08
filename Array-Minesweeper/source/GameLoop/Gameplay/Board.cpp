@@ -39,8 +39,9 @@ namespace Gameplay
         float cell_width = getCellWidthInBoard();
         float cell_height = getCellHeightInBoard();
 		
-        for (int col = 0; col < numberOfColumns; ++col)
-            cell[col] = new Cell(cell_width, cell_height, Vector2i(col, 0));
+		for (int row = 0; row < numberOfRows; ++row)
+            for (int col = 0; col < numberOfColumns; ++col)
+                cell[row][col] = new Cell(cell_width, cell_height, Vector2i(row, col));
     }
 
     void Board::deleteBoard()
@@ -52,8 +53,9 @@ namespace Gameplay
     {
         window.draw(boardSprite);
 		
-        for (int col = 0; col < numberOfColumns; ++col)
-            cell[col]->render(window);
+		for (int row = 0; row < numberOfRows; ++row)
+            for (int col = 0; col < numberOfColumns; ++col)
+                cell[row][col]->render(window);
 
     }
 
