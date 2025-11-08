@@ -13,8 +13,14 @@ namespace Gameplay
 	void Board::initialize()
 	{
 		initializeBoardImage();
+		createBoard();
 	}
 	
+	void Board::createBoard()
+	{
+		cell = new Cell(83, 83, Vector2i(0, 0));
+	}
+
 	void Board::initializeBoardImage()
 	{
 		if (!boardTexture.loadFromFile(boardTexturePath))
@@ -25,6 +31,7 @@ namespace Gameplay
 
 		boardSprite.setTexture(boardTexture);
 		boardSprite.setPosition(boardPosition, 0.0f);	
+
 		boardSprite.setScale(
 			boardWidth / boardTexture.getSize().x,
 			boardHeight / boardTexture.getSize().y
@@ -34,5 +41,6 @@ namespace Gameplay
 	void Board::render(RenderWindow& window)
 	{
 		window.draw(boardSprite);
+		cell->render(window);
 	}
 }

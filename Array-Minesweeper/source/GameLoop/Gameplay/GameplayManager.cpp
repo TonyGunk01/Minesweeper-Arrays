@@ -36,7 +36,7 @@ namespace Gameplay
 
     void GameplayManager::render(RenderWindow& window)
     {
-        board->render(window);
         window.draw(background_sprite);
+        board->render(window);
 	}
 }

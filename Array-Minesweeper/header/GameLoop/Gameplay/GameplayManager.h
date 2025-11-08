@@ -19,7 +19,7 @@ namespace Gameplay
 
 			Texture background_texture;
 			Sprite background_sprite;
-			string background_texture_path = "assets/textures/gameplay_background.png";
+			string background_texture_path = "assets/textures/minesweeper_bg.png";
 
 
         public:

@@ -1,6 +1,9 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <random>
+#include "../../header/GameLoop/Gameplay/Cell.h"
+#include "../../header/Event/EventPollingManager.h"
 
 using namespace sf;
 using namespace std;
@@ -20,6 +23,9 @@ namespace Gameplay
 
 			void initializeBoardImage();
 			void initialize();
+			void createBoard();
+
+			Cell* cell;
 
 		public:
 			Board();
