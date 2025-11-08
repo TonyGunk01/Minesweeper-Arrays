@@ -2,10 +2,7 @@
 #include <SFML/Audio.hpp>
 #include <string>
 
-using namespace sf;
-using namespace std;
-
-namespace Sounds
+namespace Sound
 {
     enum class SoundType
     {
@@ -17,29 +14,30 @@ namespace Sounds
 
     class SoundManager
     {
-        private:
-            static Music backgroundMusic;
-            static SoundBuffer bufferButtonClick;
-            static SoundBuffer bufferFlagSound;
-            static SoundBuffer bufferExplosion;
-            static SoundBuffer bufferGameWon;
-            static Sound soundEffect;
-            static float backgroundMusicVolume;
+    private:
+        static sf::Music backgroundMusic;
+        static sf::SoundBuffer bufferButtonClick;
+        static sf::SoundBuffer bufferFlagSound;
+        static sf::SoundBuffer bufferExplosion;
+        static sf::SoundBuffer bufferGameWon;
+        static sf::Sound soundEffect;
+        static float backgroundMusicVolume;
 
-            static string button_click_path;
-            static string flag_sound_path;
-            static string explosion_sound_path;
-            static string game_won_sound_path;
+        static std::string button_click_path;
+        static std::string flag_sound_path;
+        static std::string explosion_sound_path;
+        static std::string game_won_sound_path;
 
-            static string background_path;
+        static std::string background_path;
 
-            static void LoadBackgroundMusicFromFile();
-            static void LoadSoundFromFile();
+    public:
+        // Initialization and loading functions
+        static void Initialize();
+        static void PlaySound(SoundType soundType);
+        static void PlayBackgroundMusic();
 
-        public:
-            // Initialization and loading functions
-            static void Initialize();
-            static void PlaySound(SoundType soundType);
-            static void PlayBackgroundMusic();
+    private:
+        static void LoadBackgroundMusicFromFile();
+        static void LoadSoundFromFile();
     };
 }

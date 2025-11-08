@@ -1,32 +1,27 @@
-#include "../../../../header/UI/UIElements/Button/Button.h"
+#include "../../header/UI/UIElements/Button/Button.h"
 #include <iostream>
 
-namespace UIElements
-{
-	Button::Button(const string& texturePath, const Vector2f& position, float width, float height)
-	{
-		initialize(texturePath, position, width, height);
-	}
+namespace UIElements {
 
-	void Button::initialize(const string& texturePath, const Vector2f& position, float width, float height)
-	{
-		if (!buttonTexture.loadFromFile(texturePath))
-		{
-			cerr << "Failed to load button texture: " << texturePath << endl;
-			return;
-		}
+    Button::Button(const std::string& texturePath, const sf::Vector2f& position, float width, float height) {
+        initialize(texturePath, position, width, height);
+    }
 
-		buttonSprite.setTexture(buttonTexture);
-		buttonSprite.setPosition(position);
+    void Button::initialize(const std::string& texturePath, const sf::Vector2f& position, float width, float height) {
+        if (!button_texture.loadFromFile(texturePath)) {
+            std::cerr << "Failed to load button texture: " << texturePath << std::endl;
+            return;
+        }
+        buttonSprite.setTexture(button_texture);
+        buttonSprite.setPosition(position);
+        buttonSprite.setScale(width / button_texture.getSize().x, height / button_texture.getSize().y);
+    }
 
-		buttonSprite.setScale(
-			width / buttonTexture.getSize().x,
-			height / buttonTexture.getSize().y
-		);
-	}
+    void Button::render(sf::RenderWindow& window) const {
+        window.draw(buttonSprite);
+    }
 
-	void Button::render(RenderWindow& window) const
-	{
-		window.draw(buttonSprite);
-	}
+    void Button::setTextureRect(const sf::IntRect& rect) {
+        buttonSprite.setTextureRect(rect);
+    }
 }

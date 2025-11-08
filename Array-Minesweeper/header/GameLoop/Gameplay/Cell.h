@@ -3,32 +3,62 @@
 #include <SFML/Graphics.hpp>
 #include "../../header/UI/UIElements/Button/Button.h"
 #include "../../header/Event/EventPollingManager.h"
-#include <string>
 
 using namespace UIElements;
-using namespace sf;
-using namespace std;
 
 namespace Gameplay
-{ 
-	class Cell
-	{
-		private:
-			Vector2i position;
-			const int tile_size = 128;
-			const int slice_count = 12;
-			const string cell_texture_path = "assets/textures/cells.png";
+{
+    enum class CellState
+    {
+        HIDDEN,
+        OPEN,
+        FLAGGED,
+    };
 
-			Button* cell_button;
+    enum class CellType
+    {
+        EMPTY,
+        ONE,
+        TWO,
+        THREE,
+        FOUR,
+        FIVE,
+        SIX,
+        SEVEN,
+        EIGHT,
+        MINE,
+    };
 
-			void initialize(float width, float height, Vector2i position);
+    class Cell
+    {
+    private:
+        CellState current_cell_state;
+        CellType cell_type;
+        sf::Vector2i position;
+        int mines_around;
 
-		public:
-			Cell(float width, float height, Vector2i position);
+        const float cell_top_offset = 274.f;
+        const float cell_left_offset = 583.f;
+        const int tile_size = 128;
+        const int slice_count = 12;
+        const std::string cell_texture_path = "assets/textures/cells.jpeg";
+        Button* cell_button;
 
-			~Cell();
+        void initialize(float width, float height, sf::Vector2i position);
+        sf::Vector2f getCellScreenPosition() const;
+        void setCellTexture();
 
-			void render(RenderWindow& window);
+    public:
+        Cell(float width, float height, sf::Vector2i position);
+        ~Cell() = default;
 
-	};
+        void render(sf::RenderWindow& window);
+
+        //Getters, Setters
+        CellState getCellState() const;
+        void setCellState(CellState state);
+        CellType getCellType() const;
+        void setCellType(CellType type);
+        sf::Vector2i getCellPosition();
+    };
 }

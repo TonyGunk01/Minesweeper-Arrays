@@ -1,18 +1,10 @@
 #include "../../header/GameWindow/GameWindowManager.h"
 
-using namespace sf;
-
 namespace GameWindow
 {
-	GameWindowManager::GameWindowManager() 
-	{ 
-		initialize(); 
-	}
+	GameWindowManager::GameWindowManager() { initialize(); }
 
-	GameWindowManager::~GameWindowManager() 
-	{ 
-		onDestroy(); 
-	}
+	GameWindowManager::~GameWindowManager() { onDestroy(); }
 
 	void GameWindowManager::initialize()
 	{
@@ -23,41 +15,23 @@ namespace GameWindow
 	sf::RenderWindow* GameWindowManager::createGameWindow()
 	{
 		configureVideoMode();
-		return new RenderWindow(video_mode, game_window_title, Style::Fullscreen);
+		return new sf::RenderWindow(video_mode, game_window_title, sf::Style::Fullscreen);
 	}
 
 	void GameWindowManager::configureVideoMode()
 	{
-		video_mode = *(new VideoMode(game_window_width, game_window_height, VideoMode::getDesktopMode().bitsPerPixel));
+		video_mode = *(new sf::VideoMode(game_window_width, game_window_height, sf::VideoMode::getDesktopMode().bitsPerPixel));
 	}
 
-	void GameWindowManager::onDestroy() 
-	{ 
-		delete(game_window); 
-	}
+	void GameWindowManager::onDestroy() { delete(game_window); }
 
-	void GameWindowManager::setFrameRate(int frame_rate_to_set) 
-	{ 
-		game_window->setFramerateLimit(frame_rate_to_set); 
-	}
+	void GameWindowManager::setFrameRate(int frame_rate_to_set) { game_window->setFramerateLimit(frame_rate_to_set); }
 
-	void GameWindowManager::update() 
-	{ 
-	
-	}
+	void GameWindowManager::update() {}
 
-	void GameWindowManager::render() 
-	{ 
-	
-	}
+	void GameWindowManager::render() {}
 
-	bool GameWindowManager::isGameWindowOpen() 
-	{ 
-		return game_window->isOpen(); 
-	}
+	bool GameWindowManager::isGameWindowOpen() { return game_window->isOpen(); }
 
-	RenderWindow* GameWindowManager::getGameWindow() 
-	{ 
-		return game_window; 
-	}
+	sf::RenderWindow* GameWindowManager::getGameWindow() { return game_window; }
 }

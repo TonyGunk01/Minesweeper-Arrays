@@ -1,20 +1,11 @@
 #include "../../header/GameLoop/GameLoop.h"
 #include "../../header/Time/TimeManager.h"
 #include "../../header/Sound/SoundManager.h"
-#include "../../header/GameLoop/Gameplay/GameplayManager.h"
 #include <iostream>
-
-using namespace Events;
-using namespace Time;
-using namespace Sounds;
-using namespace Gameplay;
 
 GameState GameLoop::current_state = GameState::SPLASH_SCREEN;
 
-GameLoop::GameLoop() 
-{ 
-    initialize(); 
-}
+GameLoop::GameLoop() { initialize(); }
 
 void GameLoop::initialize()
 {
@@ -22,15 +13,16 @@ void GameLoop::initialize()
     window_manager = new GameWindowManager();
     game_window = window_manager->getGameWindow();
     event_manager = new EventPollingManager(game_window);
+
     splash_screen_manager = new SplashScreenManager(game_window);
     gameplay_manager = new GameplayManager();
 
     // Initialize Sounds:
-    SoundManager::Initialize();
-    SoundManager::PlayBackgroundMusic();
+    Sound::SoundManager::Initialize();
+    Sound::SoundManager::PlayBackgroundMusic();
 
     // Initialize Time:
-    TimeManager::initialize();
+    Time::TimeManager::initialize();
 }
 
 GameLoop::~GameLoop()
@@ -43,26 +35,24 @@ GameLoop::~GameLoop()
 
 void GameLoop::update()
 {
-    TimeManager::update();
+    Time::TimeManager::update();
     event_manager->update();
     window_manager->update();
 
     switch (current_state)
     {
-        case GameState::SPLASH_SCREEN:
-            splash_screen_manager->update();
-            break;
-
-        case GameState::MAIN_MENU:
-            break;
-
-        case GameState::GAMEPLAY:
-            break;
-
-        case GameState::EXIT:
-            game_window->close();
-            break;
+    case GameState::SPLASH_SCREEN:
+        splash_screen_manager->update();
+        break;
+    case GameState::MAIN_MENU:
+        break;
+    case GameState::GAMEPLAY:
+        break;
+    case GameState::EXIT:
+        game_window->close();
+        break;
     }
+
 }
 
 void GameLoop::render()
@@ -72,16 +62,14 @@ void GameLoop::render()
 
     switch (current_state)
     {
-        case GameState::SPLASH_SCREEN:
-            splash_screen_manager->render();
-            break;
-
-        case GameState::MAIN_MENU:
-            break;
-
-        case GameState::GAMEPLAY:
-			gameplay_manager->render(*game_window);
-            break;
+    case GameState::SPLASH_SCREEN:
+        splash_screen_manager->render();
+        break;
+    case GameState::MAIN_MENU:
+        break;
+    case GameState::GAMEPLAY:
+        gameplay_manager->render(*game_window);
+        break;
     }
 
     game_window->display();
@@ -97,7 +85,4 @@ void GameLoop::run()
     }
 }
 
-void GameLoop::setGameState(GameState state_to_set) 
-{ 
-    GameLoop::current_state = state_to_set; 
-}
+void GameLoop::setGameState(GameState state_to_set) { GameLoop::current_state = state_to_set; }
