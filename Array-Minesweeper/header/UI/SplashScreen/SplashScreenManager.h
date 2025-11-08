@@ -1,29 +1,34 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-namespace UI {
-    class SplashScreenManager {
-    private:
-        sf::RenderWindow* game_window;
-        sf::Texture logo_texture;
-        sf::Sprite logo_sprite;
+using namespace sf;
+using namespace std;
 
-        const float logo_width = 600.f;
-        const float logo_height = 134.f;
-        const float logo_animation_duration = 2.0f;
-        const std::string logo_texture_path = "assets/textures/outscal_logo.png";
+namespace UI 
+{
+    class SplashScreenManager 
+    {
+        private:
+            RenderWindow* game_window;
+            Texture logo_texture;
+            Sprite logo_sprite;
 
-        float elapsed_time = 0.0f;
+            const float logo_width = 600.f;
+            const float logo_height = 134.f;
+            const float logo_animation_duration = 2.0f;
+            const string logo_texture_path = "assets/textures/outscal_logo.png";
 
-        void initialize();
-        sf::Vector2f getLogoPosition();
-        void drawLogo();
+            float elapsed_time = 0.0f;
 
-    public:
-        SplashScreenManager(sf::RenderWindow* window);
-        ~SplashScreenManager();
+            void initialize();
+            Vector2f getLogoPosition();
+            void drawLogo();
 
-        void update();
-        void render();
+        public:
+            SplashScreenManager(RenderWindow* window);
+            ~SplashScreenManager();
+
+            void update();
+            void render();
     };
 }

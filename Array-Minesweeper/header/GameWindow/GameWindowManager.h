@@ -1,35 +1,38 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+using namespace sf;
+using namespace std;
+
 namespace GameWindow
 {
 	class GameWindowManager
 	{
-	private:
-		const int frame_rate = 60;
-		const std::string game_window_title = "Outscal Presents - Minesweeper";
+		private:
+			const int frame_rate = 60;
+			const string game_window_title = "Outscal Presents - Minesweeper";
 
-		const int game_window_width = 1920;
-		const int game_window_height = 1080;
+			const int game_window_width = 1920;
+			const int game_window_height = 1080;
 
-		sf::RenderWindow* game_window;
-		sf::VideoMode video_mode;
-		const sf::Color window_color = sf::Color(200, 200, 0, 255);
+			RenderWindow* game_window;
+			VideoMode video_mode;
+			const sf::Color window_color = Color(200, 200, 0, 255);
 
-		void initialize();
-		sf::RenderWindow* createGameWindow();
-		void setFrameRate(int);
-		void configureVideoMode();
-		void onDestroy();
+			void initialize();
+			RenderWindow* createGameWindow();
+			void setFrameRate(int);
+			void configureVideoMode();
+			void onDestroy();
 
-	public:
-		GameWindowManager();
-		~GameWindowManager();
+		public:
+			GameWindowManager();
+			~GameWindowManager();
 
-		bool isGameWindowOpen();
-		sf::RenderWindow* getGameWindow();
+			bool isGameWindowOpen();
+			RenderWindow* getGameWindow();
 
-		void update();
-		void render();
+			void update();
+			void render();
 	};
 }
