@@ -4,24 +4,24 @@
 
 namespace Gameplay
 {
-    Cell::Cell(float width, float height, sf::Vector2i position)
+    Cell::Cell(float width, float height, Vector2i position)
     {
         initialize(width, height, position);
     }
 
-    void Cell::initialize(float width, float height, sf::Vector2i position)
+    void Cell::initialize(float width, float height, Vector2i position)
     {
         this->position = position;
         current_cell_state = CellState::HIDDEN;
-        sf::Vector2f cellScreenPosition = getCellScreenPosition();
+        Vector2f cellScreenPosition = getCellScreenPosition();
         cell_button = new Button(cell_texture_path, cellScreenPosition, width * slice_count, height);
     }
 
-    sf::Vector2f Cell::getCellScreenPosition() const
+    Vector2f Cell::getCellScreenPosition() const
     {
         float xScreenPosition = cell_left_offset;
         float yScreenPosition = cell_top_offset;
-        return sf::Vector2f(xScreenPosition, yScreenPosition);
+        return Vector2f(xScreenPosition, yScreenPosition);
     }
 
     void Cell::setCellTexture()
@@ -30,31 +30,50 @@ namespace Gameplay
 
         switch (current_cell_state)
         {
-        case CellState::HIDDEN:
-            cell_button->setTextureRect(sf::IntRect(10 * tile_size, 0, tile_size, tile_size));
-            break;
-        case CellState::OPEN:
-            cell_button->setTextureRect(sf::IntRect(index * tile_size, 0, tile_size, tile_size));
-            break;
-        case CellState::FLAGGED:
-            cell_button->setTextureRect(sf::IntRect(11 * tile_size, 0, tile_size, tile_size));
-            break;
+            case CellState::HIDDEN:
+                cell_button->setTextureRect(IntRect(10 * tile_size, 0, tile_size, tile_size));
+                break;
+
+            case CellState::OPEN:
+                cell_button->setTextureRect(IntRect(index * tile_size, 0, tile_size, tile_size));
+                break;
+
+            case CellState::FLAGGED:
+                cell_button->setTextureRect(IntRect(11 * tile_size, 0, tile_size, tile_size));
+                break;
         }
     }
 
-    void Cell::render(sf::RenderWindow& window)
+    void Cell::render(RenderWindow& window)
     {
         setCellTexture();
-        if (cell_button) cell_button->render(window);
+
+        if (cell_button) 
+            cell_button->render(window);
     }
 
-    CellState Cell::getCellState() const { return current_cell_state; }
+    CellState Cell::getCellState() const 
+    { 
+        return current_cell_state; 
+    }
 
-    void Cell::setCellState(CellState state) { current_cell_state = state; }
+    void Cell::setCellState(CellState state) 
+    { 
+        current_cell_state = state; 
+    }
 
-    CellType Cell::getCellType() const { return cell_type; }
+    CellType Cell::getCellType() const 
+    { 
+        return cell_type; 
+    }
 
-    void Cell::setCellType(CellType type) { cell_type = type; }
+    void Cell::setCellType(CellType type) 
+    { 
+        cell_type = type; 
+    }
 
-    sf::Vector2i Cell::getCellPosition() { return position; }
+    Vector2i Cell::getCellPosition() 
+    { 
+        return position; 
+    }
 }
