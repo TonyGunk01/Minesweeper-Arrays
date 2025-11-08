@@ -4,7 +4,10 @@
 
 namespace Gameplay
 {
-    GameplayManager::GameplayManager() { initialize(); }
+    GameplayManager::GameplayManager() 
+    { 
+        initialize(); 
+    }
 
     void GameplayManager::initialize()
     {
@@ -16,7 +19,7 @@ namespace Gameplay
     {
         if (!background_texture.loadFromFile(background_texture_path))
         {
-            std::cerr << "Failed to load background texture!" << std::endl;
+            cerr << "Failed to load background texture!" << endl;
             return;
         }
 

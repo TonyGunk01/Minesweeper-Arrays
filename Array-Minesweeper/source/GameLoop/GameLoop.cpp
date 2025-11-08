@@ -3,9 +3,15 @@
 #include "../../header/Sound/SoundManager.h"
 #include <iostream>
 
+using namespace Sounds;
+using namespace Time;
+
 GameState GameLoop::current_state = GameState::SPLASH_SCREEN;
 
-GameLoop::GameLoop() { initialize(); }
+GameLoop::GameLoop() 
+{ 
+    initialize(); 
+}
 
 void GameLoop::initialize()
 {
@@ -18,11 +24,11 @@ void GameLoop::initialize()
     gameplay_manager = new GameplayManager();
 
     // Initialize Sounds:
-    Sound::SoundManager::Initialize();
-    Sound::SoundManager::PlayBackgroundMusic();
+    SoundManager::Initialize();
+    SoundManager::PlayBackgroundMusic();
 
     // Initialize Time:
-    Time::TimeManager::initialize();
+    TimeManager::initialize();
 }
 
 GameLoop::~GameLoop()
@@ -35,22 +41,25 @@ GameLoop::~GameLoop()
 
 void GameLoop::update()
 {
-    Time::TimeManager::update();
+    TimeManager::update();
     event_manager->update();
     window_manager->update();
 
     switch (current_state)
     {
-    case GameState::SPLASH_SCREEN:
-        splash_screen_manager->update();
-        break;
-    case GameState::MAIN_MENU:
-        break;
-    case GameState::GAMEPLAY:
-        break;
-    case GameState::EXIT:
-        game_window->close();
-        break;
+        case GameState::SPLASH_SCREEN:
+            splash_screen_manager->update();
+            break;
+
+        case GameState::MAIN_MENU:
+            break;
+
+        case GameState::GAMEPLAY:
+            break;
+
+        case GameState::EXIT:
+            game_window->close();
+            break;
     }
 
 }
@@ -62,14 +71,16 @@ void GameLoop::render()
 
     switch (current_state)
     {
-    case GameState::SPLASH_SCREEN:
-        splash_screen_manager->render();
-        break;
-    case GameState::MAIN_MENU:
-        break;
-    case GameState::GAMEPLAY:
-        gameplay_manager->render(*game_window);
-        break;
+        case GameState::SPLASH_SCREEN:
+            splash_screen_manager->render();
+            break;
+
+        case GameState::MAIN_MENU:
+            break;
+
+        case GameState::GAMEPLAY:
+            gameplay_manager->render(*game_window);
+            break;
     }
 
     game_window->display();
@@ -85,4 +96,7 @@ void GameLoop::run()
     }
 }
 
-void GameLoop::setGameState(GameState state_to_set) { GameLoop::current_state = state_to_set; }
+void GameLoop::setGameState(GameState state_to_set) 
+{ 
+    GameLoop::current_state = state_to_set; 
+}
