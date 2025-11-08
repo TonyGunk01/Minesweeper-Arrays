@@ -3,8 +3,11 @@
 #include "../../header/Event/EventPollingManager.h"
 #include <functional>
 
-namespace UIElements {
+using namespace sf;
+using namespace std;
 
+namespace UIElements 
+{
     enum class MouseButtonType
     {
         LEFT_MOUSE_BUTTON,
@@ -18,19 +21,19 @@ namespace UIElements {
         RELEASED
     };
 
-    class Button {
-    private:
-        sf::Texture button_texture;
-        sf::Sprite buttonSprite;
+    class Button 
+    {
+        private:
+            Texture button_texture;
+            Sprite buttonSprite;
 
+            void initialize(const string& texture_path, const Vector2f& position, float width, float height);
 
-        void initialize(const std::string& texture_path, const sf::Vector2f& position, float width, float height);
+        public:
+            Button(const string& texture_path, const Vector2f& position, float width, float height);
 
-    public:
-        Button(const std::string& texture_path, const sf::Vector2f& position, float width, float height);
+            void render(RenderWindow& window) const;
 
-        void render(sf::RenderWindow& window) const;
-
-        void setTextureRect(const sf::IntRect& rect);
+            void setTextureRect(const IntRect& rect);
     };
 }

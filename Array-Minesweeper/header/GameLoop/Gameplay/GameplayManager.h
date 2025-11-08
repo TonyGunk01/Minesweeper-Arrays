@@ -3,11 +3,13 @@
 #include "../../header/Event/EventPollingManager.h"
 #include <SFML/Graphics.hpp>
 
+using namespace UIElements;
+using namespace Events;
+using namespace sf;
+using namespace std;
+
 namespace Gameplay
 {
-    using namespace UIElements;
-    using namespace Event;
-
     enum class GameResult
     {
         NONE,
@@ -17,24 +19,23 @@ namespace Gameplay
 
     class GameplayManager
     {
-    private:
-        const float background_alpha = 85.f;
-        sf::Texture background_texture;
-        sf::Sprite background_sprite;
-        std::string background_texture_path = "assets/textures/minesweeper_bg.png";
+        private:
+            const float background_alpha = 85.f;
+            Texture background_texture;
+            Sprite background_sprite;
+            string background_texture_path = "assets/textures/minesweeper_bg.png";
 
-        Board* board;
+            Board* board;
+
+            void initialize();
+            void initializeBackgroundImage();
+            void initializeVariables();
 
 
-        void initialize();
-        void initializeBackgroundImage();
-        void initializeVariables();
+        public:
+            GameplayManager();
+            ~GameplayManager() = default;
 
-
-    public:
-        GameplayManager();
-        ~GameplayManager() = default;
-
-        void render(sf::RenderWindow& window);
+            void render(RenderWindow& window);
     };
 }
