@@ -40,7 +40,7 @@ namespace Gameplay
         float cell_height = getCellHeightInBoard();
 		
         for (int col = 0; col < numberOfColumns; ++col)
-            cell[col] = new Cell(cell_width, cell_height, Vector2i(0, 0));
+            cell[col] = new Cell(cell_width, cell_height, Vector2i(col, 0));
     }
 
     void Board::deleteBoard()
