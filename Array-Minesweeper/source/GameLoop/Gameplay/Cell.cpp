@@ -13,14 +13,14 @@ namespace Gameplay
     {
         this->position = position;
         current_cell_state = CellState::HIDDEN;
-        Vector2f cellScreenPosition = getCellScreenPosition();
+        Vector2f cellScreenPosition = getCellScreenPosition(width, height);
         cell_button = new Button(cell_texture_path, cellScreenPosition, width * slice_count, height);
     }
 
-    Vector2f Cell::getCellScreenPosition() const
+    Vector2f Cell::getCellScreenPosition(float width, float height) const
     {
-        float xScreenPosition = cell_left_offset;
-        float yScreenPosition = cell_top_offset;
+        float xScreenPosition = cell_left_offset + position.x * width;
+        float yScreenPosition = cell_top_offset + position.y * height;
         return Vector2f(xScreenPosition, yScreenPosition);
     }
 
