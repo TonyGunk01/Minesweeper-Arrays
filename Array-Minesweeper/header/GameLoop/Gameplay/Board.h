@@ -13,10 +13,16 @@ namespace Gameplay
     class Board
     {
         private:
+			// Randomization
+			default_random_engine randomEngine;
+			random_device randomDevice;
+
+			// Number of mines
+			static const int minesCount = 9;
+
             // Board Constants
             static const int numberOfRows = 9;
             static const int numberOfColumns = 9;
-            static const int minesCount = 9;
 
             // State and View Members
             Cell* cell[numberOfRows][numberOfColumns];
@@ -32,10 +38,11 @@ namespace Gameplay
             Texture boardTexture;
             Sprite boardSprite;
 
-            // Randomization
-            default_random_engine randomEngine;
-            random_device randomDevice;
-
+            // Populating the board
+            void populateBoard();
+			void populateMines();
+            void initializeVariables();
+            
             // Private helper methods
             void initialize();
             void initializeBoardImage();
@@ -44,6 +51,10 @@ namespace Gameplay
             float getCellWidthInBoard() const;
             float getCellHeightInBoard() const;
             void deleteBoard();
+
+			int countMinesAround(Vector2i cell_position);
+            void populateCells();
+            bool isValidCellPosition(Vector2i cell_position);
 
         public:
             Board();
