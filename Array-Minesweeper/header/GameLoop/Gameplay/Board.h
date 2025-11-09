@@ -4,9 +4,11 @@
 #include <random>
 #include "../../header/GameLoop/Gameplay/Cell.h"
 #include "../../header/Event/EventPollingManager.h"
+#include "../../header/Sound/SoundManager.h"
 
 using namespace sf;
 using namespace std;
+using namespace Sounds;
 
 namespace Gameplay
 {
@@ -55,6 +57,8 @@ namespace Gameplay
 			int countMinesAround(Vector2i cell_position);
             void populateCells();
             bool isValidCellPosition(Vector2i cell_position);
+
+			void openCell(Vector2i cell_position);
 
         public:
             Board();

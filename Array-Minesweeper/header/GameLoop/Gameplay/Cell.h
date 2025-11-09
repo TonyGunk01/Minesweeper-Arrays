@@ -72,5 +72,8 @@ namespace Gameplay
 
             Vector2i getCellPosition();
             void update(EventPollingManager& eventManager, RenderWindow& window);
+
+            bool canOpenCell() const;
+            void open();
     };
 }

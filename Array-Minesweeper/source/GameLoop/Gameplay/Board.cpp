@@ -146,4 +146,34 @@ namespace Gameplay
             for (int col = 0; col < numberOfColumns; ++col)
                 cell[row][col]->update(eventManager, window);
     }
+
+    void Board::onCellButtonClicked(Vector2i cell_position, MouseButtonType mouse_button_type) 
+    {
+        if (mouse_button_type == MouseButtonType::LEFT_MOUSE_BUTTON) 
+        {
+            SoundManager::PlaySound(SoundType::BUTTON_CLICK);
+            openCell(cell_position);
+        }
+
+        else if (mouse_button_type == MouseButtonType::RIGHT_MOUSE_BUTTON) 
+        {
+            
+        }
+    }
+
+    void Board::openCell(Vector2i cell_position) 
+    {
+        if(!cell[cell_position.x][cell_position.y]->canOpenCell())
+			return;
+	}
+
+    void Cell::open() 
+    {
+		setCellState(CellState::OPEN);
+	}
+
+    bool Cell::canOpenCell() const 
+    {
+        return current_cell_state == CellState::HIDDEN;
+	}
 }
