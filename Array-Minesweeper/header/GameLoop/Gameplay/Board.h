@@ -52,6 +52,10 @@ namespace Gameplay
             float getCellHeightInBoard() const;
             void deleteBoard();
 
+			int countMinesAround(Vector2i cell_position);
+            void populateCells();
+            bool isValidCellPosition(Vector2i cell_position);
+
         public:
             Board();
             ~Board();
