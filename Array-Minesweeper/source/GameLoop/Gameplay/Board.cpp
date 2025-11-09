@@ -17,7 +17,9 @@ namespace Gameplay
     void Board::initialize()
     {
         initializeBoardImage();
+        initializeVariables();
         createBoard();
+		populateBoard();
     }
 
     void Board::initializeBoardImage()
@@ -33,14 +35,19 @@ namespace Gameplay
         boardSprite.setScale(boardWidth / boardTexture.getSize().x, boardHeight / boardTexture.getSize().y);
     }
 
+    void Board::initializeVariables()
+    {
+        randomEngine.seed(randomDevice());
+    }
 
     void Board::createBoard()
     {
         float cell_width = getCellWidthInBoard();
         float cell_height = getCellHeightInBoard();
-		
-        for (int col = 0; col < numberOfColumns; ++col)
-            cell[col] = new Cell(cell_width, cell_height, Vector2i(col, 0));
+
+        for (int row = 0; row < numberOfRows; ++row)
+            for (int col = 0; col < numberOfColumns; ++col)
+                cell[row][col] = new Cell(cell_width, cell_height, Vector2i(row, col));
     }
 
     void Board::deleteBoard()
@@ -51,9 +58,10 @@ namespace Gameplay
     void Board::render(RenderWindow& window)
     {
         window.draw(boardSprite);
-		
-        for (int col = 0; col < numberOfColumns; ++col)
-            cell[col]->render(window);
+
+        for (int row = 0; row < numberOfRows; ++row)
+            for (int col = 0; col < numberOfColumns; ++col)
+                cell[row][col]->render(window);
 
     }
 
@@ -66,4 +74,69 @@ namespace Gameplay
     {
         return (boardHeight - verticalCellPadding) / numberOfRows;
     }
+
+    void Board::populateMines()
+    {
+        uniform_int_distribution<int> x_dist(0, numberOfColumns - 1);
+        uniform_int_distribution<int> y_dist(0, numberOfRows - 1);
+        
+        int mines_placed = 0;
+
+        while (mines_placed < minesCount)
+        {
+            int x = x_dist(randomEngine);
+            int y = y_dist(randomEngine);
+
+            if (cell[x][y]->getCellType() != CellType::MINE)
+            {
+                cell[x][y]->setCellType(CellType::MINE);
+                ++mines_placed;
+            }
+        }
+    }
+
+    void Board::populateBoard()
+    {
+		populateMines();
+        populateCells();
+    }
+
+    int Board::countMinesAround(Vector2i cell_position)
+    {
+        int mines_around = 0;
+
+        for (int dx = -1; dx <= 1; ++dx)
+        {
+            for (int dy = -1; dy <= 1; ++dy)
+            {
+                if (dx == 0 && dy == 0 || !isValidCellPosition(Vector2i(cell_position.x + dx, cell_position.y +dy)))
+                    continue;
+
+                if (cell[cell_position.x + dx][cell_position.y + dy]->getCellType() == CellType::MINE)
+                    mines_around++;
+            }
+        }
+        return mines_around;
+	}
+
+    bool Board::isValidCellPosition(Vector2i cell_position)
+    {
+        return (cell_position.x >= 0 && cell_position.x < numberOfColumns &&
+               cell_position.y >= 0 && cell_position.y < numberOfRows);
+	}
+
+    void Board::populateCells()
+    {
+        for (int row = 0; row < numberOfRows; ++row)
+        {
+            for (int col = 0; col < numberOfColumns; ++col)
+            {
+                if (cell[row][col]->getCellType() != CellType::MINE)
+                {
+                    int mines_around = countMinesAround(Vector2i(row, col));
+                    cell[row][col]->setCellType(static_cast<CellType>(mines_around));
+                }
+            }
+        }
+	}
 }
