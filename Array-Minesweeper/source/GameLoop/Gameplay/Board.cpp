@@ -288,6 +288,11 @@ namespace Gameplay
                     cell[row][col]->getCellState() != CellState::FLAGGED)
                     cell[row][col]->setCellState(CellState::FLAGGED);
     }
+
+    int Board::getRemainingMinesCount() const 
+    {
+        return minesCount - flaggedCells;
+    }
 }
 
                 
