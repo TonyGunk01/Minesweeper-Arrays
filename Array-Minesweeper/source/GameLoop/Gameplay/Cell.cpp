@@ -12,6 +12,7 @@ namespace Gameplay
     void Cell::initialize(float width, float height, Vector2i position, Board* board)
     {
         this->position = position;
+        this->board = board;
         Vector2f cellScreenPosition = getCellScreenPosition(width, height);
         cell_button = new Button(cell_texture_path, cellScreenPosition, width * slice_count, height);
         current_cell_state = CellState::HIDDEN;
@@ -96,5 +97,19 @@ namespace Gameplay
     void Cell::cellButtonCallback(MouseButtonType button_type) 
     {
         board->onCellButtonClicked(getCellPosition(), button_type);
+    }
+
+    bool Cell::canOpenCell() const
+    {
+        return current_cell_state == CellState::HIDDEN;
+    }
+
+    void Cell::toggleFlag()
+    {
+        if (current_cell_state == CellState::HIDDEN)
+            setCellState(CellState::FLAGGED);
+
+        else if (current_cell_state == CellState::FLAGGED)
+            setCellState(CellState::HIDDEN);
     }
 }

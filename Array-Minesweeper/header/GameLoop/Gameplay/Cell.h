@@ -63,7 +63,6 @@ namespace Gameplay
 
             void render(RenderWindow& window);
 
-            //Getters, Setters
             CellState getCellState() const;
             void setCellState(CellState state);
 
@@ -75,5 +74,7 @@ namespace Gameplay
 
             bool canOpenCell() const;
             void open();
+
+            void toggleFlag();
     };
 }
