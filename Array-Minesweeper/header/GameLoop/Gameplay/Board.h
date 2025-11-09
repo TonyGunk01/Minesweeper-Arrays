@@ -93,5 +93,6 @@ namespace Gameplay
             void flagAllMines();
 
             int getRemainingMinesCount() const;
+            void reset();
     };
 }

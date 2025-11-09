@@ -112,4 +112,10 @@ namespace Gameplay
         else if (current_cell_state == CellState::FLAGGED)
             setCellState(CellState::HIDDEN);
     }
+
+    void Cell::reset() 
+    {
+        current_cell_state = CellState::HIDDEN;
+        cell_type = CellType::EMPTY;
+    }
 }

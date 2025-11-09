@@ -122,9 +122,13 @@ namespace Gameplay
         board->revealAllMines();
     }
 
-    int GameplayManager::getMinesCount() const 
+    void GameplayManager::restartGame() 
     {
-        return board->getRemainingMinesCount();
+        game_result = GameResult::NONE;
+        board->reset();
+        Time::TimeManager::initialize();
+        remaining_time = max_level_duration;
     }
+
         
 }
