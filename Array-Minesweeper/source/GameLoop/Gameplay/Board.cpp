@@ -19,7 +19,7 @@ namespace Gameplay
         initializeBoardImage();
         initializeVariables();
         createBoard();
-		populateBoard();
+        populateBoard();
     }
 
     void Board::initializeBoardImage()
@@ -79,7 +79,7 @@ namespace Gameplay
     {
         uniform_int_distribution<int> x_dist(0, numberOfColumns - 1);
         uniform_int_distribution<int> y_dist(0, numberOfRows - 1);
-        
+
         int mines_placed = 0;
 
         while (mines_placed < minesCount)
@@ -97,7 +97,7 @@ namespace Gameplay
 
     void Board::populateBoard()
     {
-		populateMines();
+        populateMines();
         populateCells();
     }
 
@@ -109,7 +109,7 @@ namespace Gameplay
         {
             for (int dy = -1; dy <= 1; ++dy)
             {
-                if (dx == 0 && dy == 0 || !isValidCellPosition(Vector2i(cell_position.x + dx, cell_position.y +dy)))
+                if (dx == 0 && dy == 0 || !isValidCellPosition(Vector2i(cell_position.x + dx, cell_position.y + dy)))
                     continue;
 
                 if (cell[cell_position.x + dx][cell_position.y + dy]->getCellType() == CellType::MINE)
@@ -117,13 +117,13 @@ namespace Gameplay
             }
         }
         return mines_around;
-	}
+    }
 
     bool Board::isValidCellPosition(Vector2i cell_position)
     {
         return (cell_position.x >= 0 && cell_position.x < numberOfColumns &&
-               cell_position.y >= 0 && cell_position.y < numberOfRows);
-	}
+            cell_position.y >= 0 && cell_position.y < numberOfRows);
+    }
 
     void Board::populateCells()
     {
@@ -138,7 +138,7 @@ namespace Gameplay
                 }
             }
         }
-	}
+    }
 
     void Board::update(EventPollingManager& eventManager, RenderWindow& window)
     {
@@ -147,37 +147,88 @@ namespace Gameplay
                 cell[row][col]->update(eventManager, window);
     }
 
-    void Board::onCellButtonClicked(Vector2i cell_position, MouseButtonType mouse_button_type) 
+    void Board::onCellButtonClicked(Vector2i cell_position, MouseButtonType mouse_button_type)
     {
-        if (mouse_button_type == MouseButtonType::LEFT_MOUSE_BUTTON) 
+        if (mouse_button_type == MouseButtonType::LEFT_MOUSE_BUTTON)
         {
             SoundManager::PlaySound(SoundType::BUTTON_CLICK);
             openCell(cell_position);
         }
 
-        else if (mouse_button_type == MouseButtonType::RIGHT_MOUSE_BUTTON) 
+        else if (mouse_button_type == MouseButtonType::RIGHT_MOUSE_BUTTON)
         {
             SoundManager::PlaySound(SoundType::FLAG);
             toggleFlag(cell_position);
         }
     }
 
-    void Board::openCell(Vector2i cell_position) 
+    void Board::openCell(Vector2i cell_position)
     {
         if (!cell[cell_position.x][cell_position.y]->canOpenCell())
             return;
 
-        cell[cell_position.x][cell_position.y]->open();
-	}
+        processCellType(cell_position);
+    }
 
-    void Cell::open() 
+    void Cell::open()
     {
-		setCellState(CellState::OPEN);
-	}
+        setCellState(CellState::OPEN);
+    }
 
     void Board::toggleFlag(Vector2i cell_position)
     {
         cell[cell_position.x][cell_position.y]->toggleFlag();
         flaggedCells += (cell[cell_position.x][cell_position.y]->getCellState() == CellState::FLAGGED) ? 1 : -1;
     }
+
+    void Board::processCellType(Vector2i cell_position)
+    {
+        switch (cell[cell_position.x][cell_position.y]->getCellType())
+        {
+            case CellType::EMPTY:
+                processEmptyCell(cell_position);
+                break;
+
+            case CellType::MINE:
+                break;
+
+            default:
+                cell[cell_position.x][cell_position.y]->open();
+                break;
+        }
+    }
+
+    void Board::processEmptyCell(Vector2i cell_position)
+    {
+        CellState cell_state = cell[cell_position.x][cell_position.y]->getCellState();
+
+        switch (cell_state)
+        {
+            case::Gameplay::CellState::OPEN:
+                return;
+
+            default:
+                cell[cell_position.x][cell_position.y]->open();
+        }
+
+        for (int dx = -1; dx <= 1; ++dx)
+        {
+            for (int dy = -1; dy <= 1; ++dy)
+            {
+                Vector2i next_cell_position = Vector2i(dx + cell_position.x, dy + cell_position.y);
+
+                if ((dx == 0 && dy == 0) || !isValidCellPosition(next_cell_position))
+                    continue;
+
+                CellState next_cell_state = cell[next_cell_position.x][next_cell_position.y]->getCellState();
+
+                if (next_cell_state == CellState::FLAGGED)
+                    toggleFlag(next_cell_position);
+
+                openCell(next_cell_position);
+            }
+        }
+    }
 }
+
+                

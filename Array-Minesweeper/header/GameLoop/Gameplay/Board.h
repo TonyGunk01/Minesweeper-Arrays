@@ -55,6 +55,9 @@ namespace Gameplay
 			void openCell(Vector2i cell_position);
             void toggleFlag(Vector2i cell_position);
 
+            void processCellType(Vector2i cell_position);
+            void processEmptyCell(Vector2i cell_position);
+
         public:
             Board();
             ~Board();
