@@ -13,7 +13,15 @@ using namespace Sounds;
 
 namespace Gameplay
 {
+    enum class BoardState
+    {
+        FIRST_CELL,
+        PLAYING,
+        COMPLETED,
+    };
+
     class GameplayManager;
+
     class Board
     {
         private:
@@ -29,6 +37,10 @@ namespace Gameplay
             Cell* cell[numberOfRows][numberOfColumns];
             GameplayManager* gameplay_manager;
 
+            BoardState boardState;
+            Vector2i first_cell_position;
+            bool isInvalidMinePosition(Vector2i first_cell_position, int x, int y);
+
             const float horizontalCellPadding = 115.f;
             const float verticalCellPadding = 329.f;
 
@@ -39,8 +51,8 @@ namespace Gameplay
             Texture boardTexture;
             Sprite boardSprite;
 
-            void populateBoard();
-			void populateMines();
+            void populateBoard(Vector2i cell_position);
+			void populateMines(Vector2i cell_position);
             
             void initialize(GameplayManager* gameplay_manager);
             void initializeVariables(GameplayManager* gameplay_manager);
@@ -73,5 +85,8 @@ namespace Gameplay
             void onCellButtonClicked(Vector2i cell_position, MouseButtonType mouse_button_type);
 
             void revealAllMines();
+
+            BoardState getBoardState() const;
+            void setBoardState(BoardState state);
     };
 }

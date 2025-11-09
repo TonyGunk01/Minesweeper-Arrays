@@ -19,7 +19,6 @@ namespace Gameplay
         initializeBoardImage();
         initializeVariables(gameplayManager);
         createBoard();
-        populateBoard();
     }
 
     void Board::initializeBoardImage()
@@ -39,6 +38,7 @@ namespace Gameplay
     {
         this->gameplay_manager = gameplay_manager;
         randomEngine.seed(randomDevice());
+        boardState = BoardState::FIRST_CELL;
     }
 
     void Board::createBoard()
@@ -63,7 +63,6 @@ namespace Gameplay
         for (int row = 0; row < numberOfRows; ++row)
             for (int col = 0; col < numberOfColumns; ++col)
                 cell[row][col]->render(window);
-
     }
 
     float Board::getCellWidthInBoard() const
@@ -76,7 +75,7 @@ namespace Gameplay
         return (boardHeight - verticalCellPadding) / numberOfRows;
     }
 
-    void Board::populateMines()
+    void Board::populateMines(Vector2i cell_position)
     {
         uniform_int_distribution<int> x_dist(0, numberOfColumns - 1);
         uniform_int_distribution<int> y_dist(0, numberOfRows - 1);
@@ -88,17 +87,17 @@ namespace Gameplay
             int x = x_dist(randomEngine);
             int y = y_dist(randomEngine);
 
-            if (cell[x][y]->getCellType() != CellType::MINE)
-            {
-                cell[x][y]->setCellType(CellType::MINE);
-                ++mines_placed;
-            }
+            if (isInvalidMinePosition(first_cell_position, x, y))
+                continue;
+
+            cell[x][y]->setCellType(CellType::MINE);
+            ++mines_placed;
         }
     }
 
-    void Board::populateBoard()
+    void Board::populateBoard(Vector2i cell_position)
     {
-        populateMines();
+        populateMines(cell_position);
         populateCells();
     }
 
@@ -167,6 +166,12 @@ namespace Gameplay
     {
         if (!cell[cell_position.x][cell_position.y]->canOpenCell())
             return;
+
+        if (boardState == BoardState::FIRST_CELL)
+        {
+            populateBoard(cell_position);
+            boardState = BoardState::PLAYING;
+        }
 
         processCellType(cell_position);
     }
@@ -245,6 +250,22 @@ namespace Gameplay
             for (int col = 0; col < numberOfColumns; col++)
                 if (cell[row][col]->getCellType() == CellType::MINE)
                     cell[row][col]->setCellState(CellState::OPEN);
+    }
+
+    bool Board::isInvalidMinePosition(Vector2i first_cell_position, int x, int y) 
+    {
+        return (x == first_cell_position.x && y == first_cell_position.y) ||
+            cell[x][y]->getCellType() == CellType::MINE;
+    }
+
+    BoardState Board::getBoardState() const
+    {
+        return boardState;
+    }
+
+    void Board::setBoardState(BoardState state)
+    {
+        boardState = state;
     }
 }
 
