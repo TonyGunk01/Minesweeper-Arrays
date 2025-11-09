@@ -45,6 +45,8 @@ namespace Gameplay
             void handleGameplay(EventPollingManager& eventManager, RenderWindow& window);
             bool hasGameEnded();
 
+            void gameWon();
+            void gameLost();
 
         public:
             GameplayManager();
@@ -53,5 +55,8 @@ namespace Gameplay
             void render(RenderWindow& window);
             void update(EventPollingManager& eventManager, RenderWindow& window);
             void setGameResult(GameResult gameResult);
+
+            void checkGameWin();
+            void processGameResult();
     };
 }
