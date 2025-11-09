@@ -5,6 +5,7 @@
 #include "../../header/GameLoop/Gameplay/Cell.h"
 #include "../../header/Event/EventPollingManager.h"
 #include "../../header/Sound/SoundManager.h"
+#include "../../header/GameLoop/Gameplay/GameplayManager.h"
 
 using namespace sf;
 using namespace std;
@@ -12,6 +13,7 @@ using namespace Sounds;
 
 namespace Gameplay
 {
+    class GameplayManager;
     class Board
     {
         private:
@@ -25,6 +27,7 @@ namespace Gameplay
             static const int numberOfColumns = 9;
 
             Cell* cell[numberOfRows][numberOfColumns];
+            GameplayManager* gameplay_manager;
 
             const float horizontalCellPadding = 115.f;
             const float verticalCellPadding = 329.f;
@@ -38,9 +41,9 @@ namespace Gameplay
 
             void populateBoard();
 			void populateMines();
-            void initializeVariables();
             
-            void initialize();
+            void initialize(GameplayManager* gameplay_manager);
+            void initializeVariables(GameplayManager* gameplay_manager);
             void initializeBoardImage();
 
             void createBoard();
@@ -58,13 +61,17 @@ namespace Gameplay
             void processCellType(Vector2i cell_position);
             void processEmptyCell(Vector2i cell_position);
 
+            void processMineCell(Vector2i cell_position);
+
         public:
-            Board();
+            Board(GameplayManager* gameplayManager);
             ~Board();
 
             void render(RenderWindow& window);
             void update(EventPollingManager& eventManager, RenderWindow& window);
 
             void onCellButtonClicked(Vector2i cell_position, MouseButtonType mouse_button_type);
+
+            void revealAllMines();
     };
 }

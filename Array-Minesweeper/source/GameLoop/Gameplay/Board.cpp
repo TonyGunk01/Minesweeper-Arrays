@@ -4,9 +4,9 @@
 
 namespace Gameplay
 {
-    Board::Board()
+    Board::Board(GameplayManager* gameplayManager)
     {
-        initialize();
+        initialize(gameplayManager);
     }
 
     Board::~Board()
@@ -14,10 +14,10 @@ namespace Gameplay
         deleteBoard();
     }
 
-    void Board::initialize()
+    void Board::initialize(GameplayManager* gameplayManager)
     {
         initializeBoardImage();
-        initializeVariables();
+        initializeVariables(gameplayManager);
         createBoard();
         populateBoard();
     }
@@ -35,8 +35,9 @@ namespace Gameplay
         boardSprite.setScale(boardWidth / boardTexture.getSize().x, boardHeight / boardTexture.getSize().y);
     }
 
-    void Board::initializeVariables()
+    void Board::initializeVariables(GameplayManager* gameplay_manager)
     {
+        this->gameplay_manager = gameplay_manager;
         randomEngine.seed(randomDevice());
     }
 
@@ -190,6 +191,7 @@ namespace Gameplay
                 break;
 
             case CellType::MINE:
+                processMineCell(cell_position);
                 break;
 
             default:
@@ -228,6 +230,21 @@ namespace Gameplay
                 openCell(next_cell_position);
             }
         }
+    }
+
+    void Board::processMineCell(Vector2i cell_position)
+    {
+        gameplay_manager->setGameResult(GameResult::LOST);
+        SoundManager::PlaySound(SoundType::EXPLOSION);
+        revealAllMines();
+    }
+
+    void Board::revealAllMines()
+    {
+        for (int row = 0; row < numberOfRows; row++)
+            for (int col = 0; col < numberOfColumns; col++)
+                if (cell[row][col]->getCellType() == CellType::MINE)
+                    cell[row][col]->setCellState(CellState::OPEN);
     }
 }
 

@@ -26,10 +26,13 @@ namespace Gameplay
             string background_texture_path = "assets/textures/minesweeper_bg.png";
 
             Board* board;
+            GameResult game_result;
 
             void initialize();
             void initializeBackgroundImage();
             void initializeVariables();
+
+            bool hasGameEnded();
 
 
         public:
@@ -38,5 +41,6 @@ namespace Gameplay
 
             void render(RenderWindow& window);
             void update(EventPollingManager& eventManager, RenderWindow& window);
+            void setGameResult(GameResult gameResult);
     };
 }
