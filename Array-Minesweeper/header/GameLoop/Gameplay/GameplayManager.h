@@ -37,5 +37,6 @@ namespace Gameplay
             ~GameplayManager() = default;
 
             void render(RenderWindow& window);
+            void update(EventPollingManager& eventManager, RenderWindow& window);
     };
 }

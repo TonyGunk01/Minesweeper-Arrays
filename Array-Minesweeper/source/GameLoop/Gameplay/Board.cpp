@@ -47,7 +47,7 @@ namespace Gameplay
 
         for (int row = 0; row < numberOfRows; ++row)
             for (int col = 0; col < numberOfColumns; ++col)
-                cell[row][col] = new Cell(cell_width, cell_height, Vector2i(row, col));
+                cell[row][col] = new Cell(cell_width, cell_height, Vector2i(row, col), this);
     }
 
     void Board::deleteBoard()
@@ -139,4 +139,11 @@ namespace Gameplay
             }
         }
 	}
+
+    void Board::update(EventPollingManager& eventManager, RenderWindow& window)
+    {
+        for (int row = 0; row < numberOfRows; ++row)
+            for (int col = 0; col < numberOfColumns; ++col)
+                cell[row][col]->update(eventManager, window);
+    }
 }

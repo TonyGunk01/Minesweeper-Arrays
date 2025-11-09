@@ -3,7 +3,6 @@
 
 namespace UIElements 
 {
-
     Button::Button(const string& texturePath, const Vector2f& position, float width, float height) 
     {
         initialize(texturePath, position, width, height);
@@ -30,5 +29,39 @@ namespace UIElements
     void Button::setTextureRect(const IntRect& rect) 
     {
         buttonSprite.setTextureRect(rect);
+    }
+
+    bool Button::isMouseOnSprite(EventPollingManager& event_manager, const RenderWindow& window)
+    {
+        Vector2i mouse_position = event_manager.getMousePosition();
+
+        return buttonSprite.getGlobalBounds().contains(static_cast<float>(mouse_position.x), static_cast<float>(mouse_position.y));
+    }
+
+    void Button::handleButtonInteractions(EventPollingManager& event_manager, const RenderWindow& window) 
+    {
+        if (event_manager.pressedLeftMouseButton() && isMouseOnSprite(event_manager, window))
+            cout << "Left Click Detected" << endl;
+
+        else if (event_manager.pressedRightMouseButton() && isMouseOnSprite(event_manager, window))
+            cout << "Right Click Detected" << endl;
+    }
+
+    void Button::registerCallbackFunction(CallbackFunction button_callback) 
+    {
+        callback_function = button_callback;
+    }
+
+    void Button::handleButtonInteractions(EventPollingManager& event_manager, const sf::RenderWindow& window) 
+    {
+        if (event_manager.pressedLeftMouseButton() && isMouseOnSprite(event_manager, window)) 
+        {
+            callback_function(MouseButtonType::LEFT_MOUSE_BUTTON);
+        }
+
+        else if (event_manager.pressedRightMouseButton() && isMouseOnSprite(event_manager, window)) 
+        {
+            callback_function(MouseButtonType::RIGHT_MOUSE_BUTTON);
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace Gameplay
         }
 
         background_sprite.setTexture(background_texture);
-        background_sprite.setColor(sf::Color(255, 255, 255, background_alpha));
+        background_sprite.setColor(Color(255, 255, 255, background_alpha));
     }
 
     void GameplayManager::initializeVariables()
@@ -32,9 +32,14 @@ namespace Gameplay
         board = new Board();
     }
 
-    void GameplayManager::render(sf::RenderWindow& window)
+    void GameplayManager::render(RenderWindow& window)
     {
         window.draw(background_sprite);
         board->render(window);
+    }
+
+    void GameplayManager::update(EventPollingManager& eventManager, RenderWindow& window)
+    {
+        board->update(eventManager, window);
     }
 }

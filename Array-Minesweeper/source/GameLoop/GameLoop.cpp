@@ -55,6 +55,7 @@ void GameLoop::update()
             break;
 
         case GameState::GAMEPLAY:
+			gameplay_manager->update(*event_manager, *game_window);
             break;
 
         case GameState::EXIT:

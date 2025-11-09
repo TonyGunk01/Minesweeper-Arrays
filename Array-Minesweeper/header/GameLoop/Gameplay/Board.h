@@ -61,5 +61,8 @@ namespace Gameplay
             ~Board();
 
             void render(RenderWindow& window);
+            void update(EventPollingManager& eventManager, RenderWindow& window);
+
+            void onCellButtonClicked(Vector2i cell_position, MouseButtonType mouse_button_type);
     };
 }

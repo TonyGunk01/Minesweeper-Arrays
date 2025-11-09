@@ -31,6 +31,8 @@ namespace Gameplay
         MINE,
     };
 
+    class Board;
+
     class Cell
     {
         private:
@@ -44,14 +46,19 @@ namespace Gameplay
             const int tile_size = 128;
             const int slice_count = 12;
             const string cell_texture_path = "assets/textures/cells.jpeg";
-            Button* cell_button;
 
-            void initialize(float width, float height, Vector2i position);
+            Button* cell_button;
+            Board* board;
+
+            void initialize(float width, float height, Vector2i position, Board* board);
             Vector2f getCellScreenPosition(float width, float height) const;
             void setCellTexture();
 
+            void registerCellButtonCallback();
+			void cellButtonCallback(MouseButtonType button_type);
+
         public:
-            Cell(float width, float height, Vector2i position);
+            Cell(float width, float height, Vector2i position, Board* board);
             ~Cell() = default;
 
             void render(RenderWindow& window);
@@ -64,5 +71,6 @@ namespace Gameplay
             void setCellType(CellType type);
 
             Vector2i getCellPosition();
+            void update(EventPollingManager& eventManager, RenderWindow& window);
     };
 }
