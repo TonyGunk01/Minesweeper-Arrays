@@ -30,6 +30,7 @@ void GameplayManager::initializeBackgroundImage()
 void GameplayManager::initializeVariables()
 {
     board = new Board(this);
+    remaining_time = max_level_duration;
 }
 
 void GameplayManager::render(RenderWindow& window)
@@ -52,4 +53,25 @@ void GameplayManager::setGameResult(GameResult gameResult)
 bool GameplayManager::hasGameEnded()
 {
     return game_result != GameResult::NONE;
+}
+
+void GameplayManager::handleGameplay(EventPollingManager& eventManager, RenderWindow& window)
+{
+    updateRemainingTime();
+    board->update(eventManager, window);
+}
+
+void GameplayManager::updateRemainingTime()
+{
+    remaining_time = TimeManager::getDeltaTime();
+    processTimeOver();
+}
+
+void GameplayManager::processTimeOver()
+{
+    if (remaining_time <= 0)
+    {
+        remaining_time = 0;
+        game_result = GameResult::LOST;
+    }
 }
