@@ -75,7 +75,7 @@ namespace Gameplay
         return (boardHeight - verticalCellPadding) / numberOfRows;
     }
 
-    void Board::populateMines(Vector2i cell_position)
+    void Board::populateMines(Vector2i first_cell_position)
     {
         uniform_int_distribution<int> x_dist(0, numberOfColumns - 1);
         uniform_int_distribution<int> y_dist(0, numberOfRows - 1);
@@ -97,7 +97,7 @@ namespace Gameplay
 
     void Board::populateBoard(Vector2i cell_position)
     {
-        populateMines(cell_position);
+        populateMines(first_cell_position);
         populateCells();
     }
 

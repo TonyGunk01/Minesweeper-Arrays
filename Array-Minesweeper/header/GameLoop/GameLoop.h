@@ -1,8 +1,9 @@
 #pragma once
-#include "../../header/GameWindow/GameWindowManager.h"
-#include "../../header/Event/EventPollingManager.h"
-#include "../../header/UI/SplashScreen/SplashScreenManager.h"
+#include "../GameWindow/GameWindowManager.h"
+#include "../Event/EventPollingManager.h"
+#include "../UI/SplashScreen/SplashScreenManager.h"
 #include "Gameplay/GameplayManager.h"
+#include "../UI/MainMenu/MainMenuManager.h"
 
 using namespace GameWindow;
 using namespace Events;
@@ -28,6 +29,7 @@ class GameLoop
         RenderWindow* game_window;
         SplashScreenManager* splash_screen_manager;
         GameplayManager* gameplay_manager;
+        MainMenuManager* main_menu_manager;
 
         static GameState current_state;
 

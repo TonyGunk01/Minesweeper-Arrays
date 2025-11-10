@@ -10,6 +10,11 @@ namespace UI
         initialize();
     }
 
+    MainMenuManager::~MainMenuManager()
+    {
+
+    }
+
     void MainMenuManager::initialize()
     {
         initializeBackground();

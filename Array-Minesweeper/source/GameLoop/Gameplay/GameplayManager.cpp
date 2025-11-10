@@ -45,7 +45,7 @@ namespace Gameplay
     void GameplayManager::update(EventPollingManager& eventManager, RenderWindow& window)
     {
         if (!hasGameEnded())
-            board->update(eventManager, window);
+            handleGameplay(eventManager, window);
 
         else if (board->getBoardState() != BoardState::COMPLETED)
             processGameResult();
@@ -126,9 +126,12 @@ namespace Gameplay
     {
         game_result = GameResult::NONE;
         board->reset();
-        Time::TimeManager::initialize();
+        TimeManager::initialize();
         remaining_time = max_level_duration;
     }
 
-        
+    int GameplayManager::getRemainingMinesCount() const 
+    {
+        return board->getRemainingMinesCount();
+    }
 }
