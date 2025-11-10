@@ -1,18 +1,18 @@
 #include "../../header/Event/EventPollingManager.h"
 #include "../../header/GameWindow/GameWindowManager.h"
 
-namespace Events
+namespace Event
 {
     using namespace GameWindow;
 
-    EventPollingManager::EventPollingManager(RenderWindow* window) 
+    EventPollingManager::EventPollingManager(sf::RenderWindow* window) 
     { 
         initializeVariables(window); 
     }
 
     EventPollingManager::~EventPollingManager() = default;
 
-    void EventPollingManager::initializeVariables(RenderWindow* window)
+    void EventPollingManager::initializeVariables(sf::RenderWindow* window)
     {
         game_window = window;
         left_mouse_button_state = MouseButtonState::RELEASED;
@@ -33,20 +33,19 @@ namespace Events
 
     void EventPollingManager::update()
     {
-        updateMouseButtonState(left_mouse_button_state, Mouse::Left);
-        updateMouseButtonState(right_mouse_button_state, Mouse::Right);
+        updateMouseButtonState(left_mouse_button_state, sf::Mouse::Left);
+        updateMouseButtonState(right_mouse_button_state, sf::Mouse::Right);
     }
 
-    void EventPollingManager::updateMouseButtonState(MouseButtonState& button_state, Mouse::Button button_type)
+    void EventPollingManager::updateMouseButtonState(MouseButtonState& button_state, sf::Mouse::Button button_type)
     {
-        if (Mouse::isButtonPressed(button_type))
+        if (sf::Mouse::isButtonPressed(button_type))
         {
             switch (button_state)
             {
                 case MouseButtonState::RELEASED:
                     button_state = MouseButtonState::PRESSED;
                     break;
-
                 case MouseButtonState::PRESSED:
                     button_state = MouseButtonState::HELD;
                     break;
@@ -64,7 +63,7 @@ namespace Events
 
     bool EventPollingManager::gameWindowWasClosed() 
     { 
-        return game_event.type == Event::Closed; 
+        return game_event.type == sf::Event::Closed; 
     }
 
     bool EventPollingManager::hasQuitGame() 
@@ -74,17 +73,17 @@ namespace Events
 
     bool EventPollingManager::isKeyboardEvent() 
     { 
-        return game_event.type == Event::KeyPressed; 
+        return game_event.type == sf::Event::KeyPressed; 
     }
 
     bool EventPollingManager::pressedEscapeKey() 
     { 
-        return game_event.key.code == Keyboard::Escape; 
+        return game_event.key.code == sf::Keyboard::Escape; 
     }
 
-    bool EventPollingManager::pressedLeftMouseButton()
+    bool EventPollingManager::pressedLeftMouseButton() 
     { 
-        return left_mouse_button_state == MouseButtonState::PRESSED; 
+        return left_mouse_button_state == MouseButtonState::PRESSED;
     }
 
     bool EventPollingManager::pressedRightMouseButton() 
@@ -94,6 +93,6 @@ namespace Events
 
     sf::Vector2i EventPollingManager::getMousePosition() 
     { 
-        return Mouse::getPosition(*game_window); 
+        return sf::Mouse::getPosition(*game_window); 
     }
 }

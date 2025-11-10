@@ -12,26 +12,24 @@ namespace UI
 {
     using namespace Gameplay;
     using namespace UIElements;
-    using namespace Events;
-    using namespace sf;
-    using namespace std;
-
+    using namespace Event;
+    
     class GameplayUI 
     {
         private:
-            Font bubbleBobbleFont;
-            Font dsDigibFont;
+            sf::Font bubbleBobbleFont;
+            sf::Font dsDigibFont;
 
-            Text mineText;
-            Text timeText;
+            sf::Text mineText;
+            sf::Text timeText;
 
             Button* restartButton = nullptr;
             bool restartButtonClicked = false;
 
-            const string restartButtonTexturePath = "assets/textures/restart_button.png";
+            const std::string restartButtonTexturePath = "assets/textures/restart_button.png";
             const int fontSize = 110;
 
-            const float mineTextTopOffset = 65.f;
+            const float minetextTopOffset = 65.f;
             const float mineTextLeftOffset = 660.f;
 
             const float timeTextTopOffset = 65.f;
@@ -42,14 +40,15 @@ namespace UI
 
             const float buttonWidth = 80.f;
             const float buttonHeight = 80.f;
-            const Color textColor = Color::Red;
+            const sf::Color textColor = sf::Color::Red;
 
             GameplayManager* gameplay_manager;
-
+        
             void initialize(GameplayManager* gameplay_manager);
             void initializeTexts();
             void initializeButton();
             void loadFonts();
+            std::string formatScore(int text);
 
             void registerButtonCallback();
             void RestartButtonCallback(MouseButtonType mouse_button_type);
@@ -58,7 +57,7 @@ namespace UI
             GameplayUI(GameplayManager* gameplay_manager);
             ~GameplayUI() = default;
 
-            void update(int remaining_mines, int remaining_time, EventPollingManager& eventManager, RenderWindow& window);
-            void render(RenderWindow& window);
+            void update(int remaining_mines, int remaining_time, EventPollingManager& eventManager, sf::RenderWindow& window);
+            void render(sf::RenderWindow& window);
     };
 }

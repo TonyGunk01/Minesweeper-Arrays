@@ -1,16 +1,14 @@
 #pragma once
-#include "../GameWindow/GameWindowManager.h"
-#include "../Event/EventPollingManager.h"
-#include "../UI/SplashScreen/SplashScreenManager.h"
+#include "../../header/GameWindow/GameWindowManager.h"
+#include "../../header/Event/EventPollingManager.h"
+#include "../../header/UI/SplashScreenManager/SplashScreenManager.h"
+#include "../../header/UI/MainMenu/MainMenuManager.h"
 #include "Gameplay/GameplayManager.h"
-#include "../UI/MainMenu/MainMenuManager.h"
 
 using namespace GameWindow;
-using namespace Events;
+using namespace Event;
 using namespace Gameplay;
-using namespace UIElements;
 using namespace UI;
-using namespace sf;
 
 enum class GameState
 {
@@ -26,13 +24,13 @@ class GameLoop
         GameWindowManager* window_manager;
         EventPollingManager* event_manager;
 
-        RenderWindow* game_window;
+        sf::RenderWindow* game_window;
         SplashScreenManager* splash_screen_manager;
-        GameplayManager* gameplay_manager;
         MainMenuManager* main_menu_manager;
+        GameplayManager* gameplay_manager;
 
         static GameState current_state;
-
+    
         void initialize();
         void update();
         void render();
@@ -40,7 +38,7 @@ class GameLoop
     public:
         GameLoop();
         ~GameLoop();
-
+    
         void run();
         static void setGameState(GameState state_to_set);
 };

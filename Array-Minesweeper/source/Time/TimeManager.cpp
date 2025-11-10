@@ -2,12 +2,13 @@
 
 namespace Time
 {
-    time_point<steady_clock> TimeManager::previous_time;
+    // Static variable definitions
+    std::chrono::time_point<std::chrono::steady_clock> TimeManager::previous_time;
     float TimeManager::delta_time = 0.0f;
 
     void TimeManager::initialize()
     {
-        previous_time = steady_clock::now();
+        previous_time = std::chrono::steady_clock::now();
         delta_time = 0.0f;
     }
 
@@ -29,12 +30,13 @@ namespace Time
 
     float TimeManager::calculateDeltaTime()
     {
-        int delta = duration_cast<microseconds>(steady_clock::now() - previous_time).count();
+        int delta = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - previous_time).count();
+
         return static_cast<float>(delta) / 1000000.0f;
     }
 
     void TimeManager::updatePreviousTime() 
     { 
-        previous_time = steady_clock::now(); 
+        previous_time = std::chrono::steady_clock::now(); 
     }
 }

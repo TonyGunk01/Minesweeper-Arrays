@@ -1,6 +1,7 @@
 #include "../../header/UI/MainMenu/MainMenuManager.h"
-#include "../../../header/GameLoop/GameLoop.h"
 #include <iostream>
+
+#include "../../../header/GameLoop/GameLoop.h"
 
 namespace UI 
 {
@@ -12,7 +13,8 @@ namespace UI
 
     MainMenuManager::~MainMenuManager()
     {
-
+        delete play_button;
+        delete quit_button;
     }
 
     void MainMenuManager::initialize()
@@ -21,39 +23,33 @@ namespace UI
         initializeButtons();
     }
 
-    void MainMenuManager::initializeBackground() 
+    void MainMenuManager::initializeBackground()
     {
-        if (!background_texture.loadFromFile(background_texture_path)) 
+        if (!background_texture.loadFromFile(background_texture_path))
         {
-            cerr << "Failed to load background texture" << endl;
+            std::cerr << "Failed to load background texture" << std::endl;
             return;
         }
-
+        
         background_sprite.setTexture(background_texture);
-        background_sprite.setColor(Color(255, 255, 255, background_alpha));
+        background_sprite.setColor(sf::Color(255, 255, 255, background_alpha));
     }
 
-    void MainMenuManager::initializeButtons() 
+    void MainMenuManager::initializeButtons()
     {
-        play_button = new Button(play_button_texture_path,
-            getButtonPosition(0.f, play_button_y_position),
-            button_width, button_height);
-
-        quit_button = new Button(quit_button_texture_path,
-            getButtonPosition(0.f, quit_button_y_position),
-            button_width, button_height);
-
+        play_button = new Button(play_button_texture_path, getButtonPosition(0.f, play_button_y_position), button_width, button_height);
+        quit_button = new Button(quit_button_texture_path, getButtonPosition(0.f, quit_button_y_position), button_width, button_height);
         registerButtonCallbacks();
     }
 
-    Vector2f MainMenuManager::getButtonPosition(float offsetX, float offsetY) 
+    sf::Vector2f MainMenuManager::getButtonPosition(float offsetX, float offsetY)
     {
         float x_position = (game_window->getSize().x - button_width) / 2.0f + offsetX;
         float y_position = offsetY;
-        return Vector2f(x_position, y_position);
+        return sf::Vector2f(x_position, y_position);
     }
 
-    void MainMenuManager::registerButtonCallbacks() 
+    void MainMenuManager::registerButtonCallbacks()
     {
         play_button->registerCallbackFunction([this](UIElements::MouseButtonType buttonType)
             {
@@ -68,38 +64,44 @@ namespace UI
         );
     }
 
-    void MainMenuManager::playButtonCallback(MouseButtonType mouse_button_type) 
+    void MainMenuManager::playButtonCallback(MouseButtonType mouse_button_type)
     {
-        if (mouse_button_type == MouseButtonType::LEFT_MOUSE_BUTTON) 
+        if (mouse_button_type == MouseButtonType::LEFT_MOUSE_BUTTON)
         {
-            SoundManager::PlaySound(SoundType::BUTTON_CLICK);
+            Sound::SoundManager::PlaySound(Sound::SoundType::BUTTON_CLICK);
             GameLoop::setGameState(GameState::GAMEPLAY);
         }
     }
 
-    void MainMenuManager::quitButtonCallback(MouseButtonType mouse_button_type) 
+    void MainMenuManager::quitButtonCallback(MouseButtonType mouse_button_type)
     {
-        if (mouse_button_type == MouseButtonType::LEFT_MOUSE_BUTTON) 
+        if (mouse_button_type == MouseButtonType::LEFT_MOUSE_BUTTON)
         {
-            SoundManager::PlaySound(SoundType::BUTTON_CLICK);
+            Sound::SoundManager::PlaySound(Sound::SoundType::BUTTON_CLICK);
             GameLoop::setGameState(GameState::EXIT);
         }
     }
 
-    void MainMenuManager::render() 
-    {
-        game_window->draw(background_sprite);
-
-        if (play_button) 
-            play_button->render(*game_window);
-
-        if (quit_button) 
-            quit_button->render(*game_window);
+    void MainMenuManager::update(EventPollingManager eventManager) 
+    { 
+        checkForButtonClicks(eventManager); 
     }
 
-    void MainMenuManager::update(EventPollingManager eventManager) 
+    void MainMenuManager::render() 
+    { 
+        show(); 
+    }
+
+    void MainMenuManager::show()
     {
-        play_button->handleButtonInteractions(eventManager, *game_window);
-        quit_button->handleButtonInteractions(eventManager, *game_window);
+        game_window->draw(background_sprite);
+        if (play_button) play_button->render(*game_window);
+        if (quit_button) quit_button->render(*game_window);
+    }
+
+    void MainMenuManager::checkForButtonClicks(Event::EventPollingManager& eventManager)
+    {
+        if (play_button) play_button->handleButtonInteractions(eventManager, *game_window);
+        if (quit_button) quit_button->handleButtonInteractions(eventManager, *game_window);
     }
 }
