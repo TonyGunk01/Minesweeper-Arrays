@@ -1,15 +1,12 @@
 #pragma once
 #include <chrono>
 
-using namespace std;
-using namespace chrono;
-
 namespace Time
 {
     class TimeManager
     {
         private:
-            static time_point<steady_clock> previous_time;
+            static std::chrono::time_point<std::chrono::steady_clock> previous_time;
             static float delta_time;
 
             static void updateDeltaTime();

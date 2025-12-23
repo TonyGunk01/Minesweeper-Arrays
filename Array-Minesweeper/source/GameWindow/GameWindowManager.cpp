@@ -18,15 +18,15 @@ namespace GameWindow
 		setFrameRate(frame_rate);
 	}
 
-	RenderWindow* GameWindowManager::createGameWindow()
+	sf::RenderWindow* GameWindowManager::createGameWindow()
 	{
 		configureVideoMode();
-		return new RenderWindow(video_mode, game_window_title, Style::Fullscreen);
+		return new sf::RenderWindow(video_mode, game_window_title, sf::Style::Fullscreen);
 	}
 
 	void GameWindowManager::configureVideoMode()
 	{
-		video_mode = *(new VideoMode(game_window_width, game_window_height, VideoMode::getDesktopMode().bitsPerPixel));
+		video_mode = *(new sf::VideoMode(game_window_width, game_window_height, sf::VideoMode::getDesktopMode().bitsPerPixel));
 	}
 
 	void GameWindowManager::onDestroy() 
@@ -40,12 +40,12 @@ namespace GameWindow
 	}
 
 	void GameWindowManager::update() 
-	{
+	{ 
 	
 	}
 
 	void GameWindowManager::render() 
-	{
+	{ 
 	
 	}
 
@@ -54,7 +54,7 @@ namespace GameWindow
 		return game_window->isOpen(); 
 	}
 
-	RenderWindow* GameWindowManager::getGameWindow() 
+	sf::RenderWindow* GameWindowManager::getGameWindow() 
 	{ 
 		return game_window; 
 	}

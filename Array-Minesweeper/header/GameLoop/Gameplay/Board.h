@@ -4,15 +4,11 @@
 #include <random>
 #include "../../header/GameLoop/Gameplay/Cell.h"
 #include "../../header/Event/EventPollingManager.h"
-#include "../../header/Sound/SoundManager.h"
-#include "../../header/GameLoop/Gameplay/GameplayManager.h"
-
-using namespace sf;
-using namespace std;
-using namespace Sounds;
 
 namespace Gameplay
 {
+    class GameplayManager;
+
     enum class BoardState
     {
         FIRST_CELL,
@@ -20,40 +16,32 @@ namespace Gameplay
         COMPLETED,
     };
 
-    class GameplayManager;
-
     class Board
     {
         private:
-			default_random_engine randomEngine;
-			random_device randomDevice;
-
-            int flaggedCells;
-			static const int minesCount = 9;
+            GameplayManager *gameplay_manager;
 
             static const int numberOfRows = 9;
             static const int numberOfColumns = 9;
-
-            Cell* cell[numberOfRows][numberOfColumns];
-            GameplayManager* gameplay_manager;
+            static const int minesCount = 9;
 
             BoardState boardState;
-            Vector2i first_cell_position;
-            bool isInvalidMinePosition(Vector2i first_cell_position, int x, int y);
-
+            Cell* cell[numberOfRows][numberOfColumns];
+            int flaggedCells;
+        
             const float horizontalCellPadding = 115.f;
             const float verticalCellPadding = 329.f;
 
             const float boardWidth = 866.f;
             const float boardHeight = 1080.f;
             const float boardPosition = 530.f;
-            const string boardTexturePath = "assets/textures/board.png";
-            Texture boardTexture;
-            Sprite boardSprite;
+            const std::string boardTexturePath = "assets/textures/board.png";
+            sf::Texture boardTexture;
+            sf::Sprite boardSprite;
 
-            void populateBoard(Vector2i cell_position);
-			void populateMines(Vector2i cell_position);
-            
+            std::default_random_engine randomEngine;
+            std::random_device randomDevice;
+
             void initialize(GameplayManager* gameplay_manager);
             void initializeVariables(GameplayManager* gameplay_manager);
             void initializeBoardImage();
@@ -63,33 +51,38 @@ namespace Gameplay
             float getCellHeightInBoard() const;
             void deleteBoard();
 
-			int countMinesAround(Vector2i cell_position);
+            void openCell(sf::Vector2i cell_position);
+            void toggleFlag(sf::Vector2i cell_position);
+        
+            void populateBoard(sf::Vector2i first_cell_position);
+            void populateMines(sf::Vector2i first_cell_position);
+            bool isInvalidMinePosition(sf::Vector2i first_cell_position, int x, int y);
+            int countMinesAround(sf::Vector2i cell_position);
             void populateCells();
-            bool isValidCellPosition(Vector2i cell_position);
+        
+            void processCellType(sf::Vector2i cell_position);
+            void processEmptyCell(sf::Vector2i cell_position);
+            void processMineCell(sf::Vector2i cell_position);
 
-			void openCell(Vector2i cell_position);
-            void toggleFlag(Vector2i cell_position);
-
-            void processCellType(Vector2i cell_position);
-            void processEmptyCell(Vector2i cell_position);
-
-            void processMineCell(Vector2i cell_position);
 
         public:
             Board(GameplayManager* gameplayManager);
             ~Board();
 
-            void render(RenderWindow& window);
-            void update(EventPollingManager& eventManager, RenderWindow& window);
+            void update(Event::EventPollingManager& eventManager, sf::RenderWindow& window);
+            void render(sf::RenderWindow& window);
 
-            void onCellButtonClicked(Vector2i cell_position, MouseButtonType mouse_button_type);
+            void reset();
+            void onCellButtonClicked(sf::Vector2i cell_position, MouseButtonType mouse_button_type);
 
-            void revealAllMines();
+            bool isValidCellPosition(sf::Vector2i cell_position);
 
             BoardState getBoardState() const;
             void setBoardState(BoardState state);
-
+            int getMinesCount() const;
+        
             bool areAllCellsOpen();
             void flagAllMines();
+            void revealAllMines();
     };
 }

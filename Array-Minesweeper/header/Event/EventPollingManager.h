@@ -2,10 +2,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 
-using namespace sf;
-using namespace std;
-
-namespace Events
+namespace Event
 {
     enum class MouseButtonState
     {
@@ -17,14 +14,14 @@ namespace Events
     class EventPollingManager
     {
         private:
-            Event game_event;
-            RenderWindow* game_window;
+            sf::Event game_event;
+            sf::RenderWindow* game_window;
 
             MouseButtonState left_mouse_button_state;
             MouseButtonState right_mouse_button_state;
 
-            void initializeVariables(RenderWindow* window);
-            void updateMouseButtonState(MouseButtonState& button_state, Mouse::Button button_type);
+            void initializeVariables(sf::RenderWindow* window);
+            void updateMouseButtonState(MouseButtonState& button_state, sf::Mouse::Button button_type);
 
             bool hasQuitGame();
             bool isKeyboardEvent();
@@ -32,7 +29,7 @@ namespace Events
             bool gameWindowWasClosed();
 
         public:
-            EventPollingManager(RenderWindow* window);
+            EventPollingManager(sf::RenderWindow* window);
             ~EventPollingManager();
 
             void processEvents();
@@ -42,6 +39,6 @@ namespace Events
             bool pressedLeftMouseButton();
             bool pressedRightMouseButton();
 
-            Vector2i getMousePosition();
+            sf::Vector2i getMousePosition();
     };
 }

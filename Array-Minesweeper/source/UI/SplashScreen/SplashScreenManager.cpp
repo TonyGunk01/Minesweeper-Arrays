@@ -1,10 +1,8 @@
-#include "../../header/UI/SplashScreen/SplashScreenManager.h"
+#include "../../header/UI/SplashScreenManager/SplashScreenManager.h"
 #include <iostream>
 
 #include "../../../header/GameLoop/GameLoop.h"
 #include "../../../header/Time/TimeManager.h"
-
-using namespace Time;
 
 namespace UI
 {
@@ -14,16 +12,13 @@ namespace UI
         initialize();
     }
 
-    SplashScreenManager::~SplashScreenManager() 
-    {
-    
-    }
+    SplashScreenManager::~SplashScreenManager() {}
 
     void SplashScreenManager::initialize()
     {
         if (!logo_texture.loadFromFile(logo_texture_path))
-            cerr << "Failed to load logo texture" << endl;
-
+            std::cerr << "Failed to load logo texture" << std::endl;
+        
         logo_sprite.setTexture(logo_texture);
         logo_sprite.setPosition(getLogoPosition());
     }
@@ -38,25 +33,24 @@ namespace UI
         drawLogo(); 
     }
 
-    Vector2f SplashScreenManager::getLogoPosition()
+    sf::Vector2f SplashScreenManager::getLogoPosition()
     {
         float x_position = (game_window->getSize().x - logo_width) / 2.0f;
         float y_position = (game_window->getSize().y - logo_height) / 2.0f;
-
-        return { x_position, y_position };
+        return {x_position, y_position};
     }
 
     void SplashScreenManager::drawLogo()
     {
-        elapsed_time = elapsed_time + TimeManager::getDeltaTime();
-
+        elapsed_time = elapsed_time + Time::TimeManager::getDeltaTime();
+        
         if (elapsed_time < logo_animation_duration)
             game_window->draw(logo_sprite);
 
         else
         {
             elapsed_time = 0.0f;
-            GameLoop::setGameState(GameState::GAMEPLAY);
+            GameLoop::setGameState(GameState::MAIN_MENU);
         }
     }
 }
