@@ -21,7 +21,7 @@ namespace GameWindow
 	sf::RenderWindow* GameWindowManager::createGameWindow()
 	{
 		configureVideoMode();
-		return new sf::RenderWindow(video_mode, game_window_title, sf::Style::Fullscreen);
+		return new sf::RenderWindow(video_mode, game_window_title, sf::Style::Default);
 	}
 
 	void GameWindowManager::configureVideoMode()
@@ -46,7 +46,7 @@ namespace GameWindow
 
 	void GameWindowManager::render() 
 	{ 
-	
+		
 	}
 
 	bool GameWindowManager::isGameWindowOpen() 

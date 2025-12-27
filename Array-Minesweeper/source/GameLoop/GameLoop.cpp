@@ -13,6 +13,7 @@ void GameLoop::initialize()
 {
     window_manager = new GameWindowManager();
     game_window = window_manager->getGameWindow();
+
     event_manager = new EventPollingManager(game_window);
 
     splash_screen_manager = new SplashScreenManager(game_window);
@@ -80,7 +81,7 @@ void GameLoop::render()
             gameplay_manager->render(*game_window);
             break;
     }
-    
+
     game_window->display();
 }
 
