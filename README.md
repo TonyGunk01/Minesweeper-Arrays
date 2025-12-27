@@ -6,6 +6,6 @@ I used 2D arrays to store the cell positions and then rendered each row with its
 
 Using event managers, I managed to capture left clicks to clear out the cell and right clicks to flag it based on its state (whether hidden or revealed). I also added logic to open neighbouring cells except for the ones which have mines.
 
-Then I created a simple UI for play, quit and restarting the game.
+Then I created a simple UI for play and quitting the game.
 
-Video Demo:
+[Click for video demo:](https://youtu.be/Pz1ZVUq9h3Q)
